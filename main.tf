@@ -1,15 +1,12 @@
-terraform {
-  required_providers {
-    aws = {
-      source  = "hashicorp/aws"
-      version = "~> 5.0"
-    }
-  }
-  required_version = ">= 1.8"
+module "blog_db" {
+  source            = "./modules/rds-postgres"
+  vpc_id            = var.vpc_id
+  subnet_ids        = var.subnet_ids
+  db_name           = var.db_name
+  db_username       = var.db_username
+  environment       = var.environment
+  db_password       = var.db_password
+  instance_class    = var.instance_class
+  allocated_storage = var.allocated_storage
+  multi_az          = var.multi_az
 }
-
-provider "aws" {
-  region = var.region
-}
-
-# TODO: add module call here after completing modules/rds-postgres/
