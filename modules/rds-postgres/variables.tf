@@ -29,6 +29,10 @@ variable "subnet_ids" {
   type        = list(string)
   description = "List of subnet IDs where the RDS instance will be deployed"
 }
+variable "db_sg_id" {
+  type        = string
+  description = "ID of the security group to attach to the RDS instance — provided by the network module"
+}
 variable "environment" {
   type        = string
   description = "The environment for which to create the RDS instance (e.g., dev, staging, prod)"

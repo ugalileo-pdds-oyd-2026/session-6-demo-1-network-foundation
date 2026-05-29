@@ -21,14 +21,6 @@ variable "allocated_storage" {
   default     = 20
   description = "The amount of storage to allocate for the RDS instance (in GB)"
 }
-variable "vpc_id" {
-  type        = string
-  description = "The ID of the VPC where the RDS instance will be deployed"
-}
-variable "subnet_ids" {
-  type        = list(string)
-  description = "List of subnet IDs where the RDS instance will be deployed"
-}
 variable "environment" {
   type        = string
   description = "The environment for which to create the RDS instance (e.g., dev, staging, prod)"
@@ -41,4 +33,29 @@ variable "region" {
   type        = string
   default     = "us-west-2"
   description = "AWS region"
+}
+variable "vpc_cidr" {
+  type        = string
+  default     = "10.0.0.0/16"
+  description = "CIDR block for the VPC"
+}
+
+variable "public_subnet_cidrs" {
+  type        = list(string)
+  description = "CIDR blocks for public subnets (one per availability zone)"
+}
+
+variable "private_subnet_cidrs" {
+  type        = list(string)
+  description = "CIDR blocks for private (app) subnets (one per availability zone)"
+}
+
+variable "db_subnet_cidrs" {
+  type        = list(string)
+  description = "CIDR blocks for database subnets (one per availability zone)"
+}
+
+variable "availability_zones" {
+  type        = list(string)
+  description = "List of availability zones to deploy subnets into"
 }

@@ -1,6 +1,6 @@
 resource "aws_security_group" "rds" {
   name   = "${var.environment}-rds-sg"
-  vpc_id = var.vpc_id
+  vpc_id = "vpc-2e760856"
   ingress {
     from_port   = 5432
     to_port     = 5432
@@ -14,9 +14,13 @@ resource "aws_security_group" "rds" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 }
-
 resource "aws_db_subnet_group" "this" {
   name       = "${var.environment}-rds-subnet-group"
+  subnet_ids = ["subnet-a88843d0", "subnet-f927d2b3"]
+}
+
+resource "aws_db_subnet_group" "new" {
+  name       = "${var.environment}-rds-subnet-group-new"
   subnet_ids = var.subnet_ids
 }
 
@@ -35,9 +39,9 @@ resource "aws_db_instance" "this" {
   username                = var.db_username
   password                = var.db_password
   port                    = 5432
-  db_subnet_group_name    = aws_db_subnet_group.this.name
+  db_subnet_group_name    = aws_db_subnet_group.new.name
   parameter_group_name    = aws_db_parameter_group.this.name
-  vpc_security_group_ids  = [aws_security_group.rds.id]
+  vpc_security_group_ids  = [var.db_sg_id]
   storage_encrypted       = true
   backup_retention_period = 7
   skip_final_snapshot     = true
